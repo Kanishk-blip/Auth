@@ -9,6 +9,7 @@ const user=[];
     const token=req.headers.token;
     const decrypt=jwt.verify(token,Secret);
     if(decrypt.username){
+        req.username=decrypt.username;
         loggedin=true;
     }
     if(loggedin){
@@ -36,7 +37,7 @@ app.post('/signup',function (req,res){
         message:"user created"
     })
 })
-app.post('/signin',auth,function (req,res){
+app.post('/signin',function (req,res){
     const username=req.body.username;
     const password=req.body.password;
     let weAreGoodToGo=false;
@@ -64,15 +65,15 @@ app.post('/signin',auth,function (req,res){
    
 })
 app.get('/me',auth,function(req,res){
-      console.log("Current users:", user);
-    const token=req.headers.token;
-    const decrypt=jwt.verify(token,Secret);
-    const username=decrypt.username;
-    console.log("Current users:", user);
-    console.log("Current username:", username);
+    //   console.log("Current users:", user);
+    // const token=req.headers.token;
+    // const decrypt=jwt.verify(token,Secret);
+    // const username=decrypt.username;
+    // console.log("Current users:", user);
+    // console.log("Current username:", username);
     let password;
     for(let i=0;i<user.length;i++){
-        if(user[i].username===username){
+        if(user[i].username=== req.username){
             password=user[i].password
             break;
         }
