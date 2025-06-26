@@ -13,9 +13,9 @@ const user=[];
         loggedin=true;
     }
     if(loggedin){
-        res.json({
-            message:"user is loggedin"
-        })
+        // res.json({
+        //     message:"user is loggedin"
+        // })
         next();
     }else{
         res.json({
@@ -24,6 +24,9 @@ const user=[];
         return;
     }
 }
+app.get('/',function (req, res){
+     res.sendFile(__dirname+"/public/index.html");
+})
 app.post('/signup',function (req,res){
     const username=req.body.username;
     const password=req.body.password;
@@ -65,12 +68,6 @@ app.post('/signin',function (req,res){
    
 })
 app.get('/me',auth,function(req,res){
-    //   console.log("Current users:", user);
-    // const token=req.headers.token;
-    // const decrypt=jwt.verify(token,Secret);
-    // const username=decrypt.username;
-    // console.log("Current users:", user);
-    // console.log("Current username:", username);
     let password;
     for(let i=0;i<user.length;i++){
         if(user[i].username=== req.username){
@@ -79,7 +76,7 @@ app.get('/me',auth,function(req,res){
         }
     }
     res.json({
-        username:username,
+        username:req.username,
         password:password
     })
 })
